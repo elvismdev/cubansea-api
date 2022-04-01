@@ -1,0 +1,21 @@
+type MarketTokenMinted @entity {
+  id: ID!
+  itemId: BigInt! # uint256
+  nftContract: Bytes! # address
+  tokenId: BigInt! # uint256
+  seller: Bytes! # address
+  owner: Bytes! # address
+  price: BigInt! # uint256
+  sold: Boolean! # bool
+}
+
+type MarketTokenSold @entity {
+  id: ID!
+  itemId: BigInt! # uint256
+  nftContract: Bytes! # address
+  tokenId: BigInt! # uint256
+  seller: Bytes! # address
+  owner: Bytes! # address
+  price: BigInt! # uint256
+  sold: Boolean! # bool
+}

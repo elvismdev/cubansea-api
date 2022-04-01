@@ -1,0 +1,26 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CSMarket
+    network: mumbai
+    source:
+      address: "0xae198b77c760C8D547f796F57C469C0294592aB8"
+      abi: CSMarket
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - MarketTokenMinted
+        - MarketTokenSold
+      abis:
+        - name: CSMarket
+          file: ./abis/CSMarket.json
+      eventHandlers:
+        - event: MarketTokenMinted(indexed uint256,indexed address,indexed uint256,address,address,uint256,bool)
+          handler: handleMarketTokenMinted
+        - event: MarketTokenSold(indexed uint256,indexed address,indexed uint256,address,address,uint256,bool)
+          handler: handleMarketTokenSold
+      file: ./src/mapping.ts
