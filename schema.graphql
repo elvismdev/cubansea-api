@@ -49,6 +49,7 @@ type ERC721Token @entity {
   uri: String
   transfers: [ERC721Transfer!]! @derivedFrom(field: "token")
   price: BigInt # uint256
+  seller: Account
 }
 type ERC721Operator @entity {
   id: ID!
