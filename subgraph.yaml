@@ -6,9 +6,9 @@ dataSources:
     name: CSMarket
     network: mumbai
     source:
-      address: "0xae198b77c760C8D547f796F57C469C0294592aB8"
+      address: "0xb9c3bC5d2713063C72cdd98Fe50E50C0D682E483"
       abi: CSMarket
-      startBlock: 25751083
+      startBlock: 25807235
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -29,15 +29,17 @@ dataSources:
     name: NFT
     network: mumbai
     source:
-      address: "0x71ebD653313ec481Cf6e43f08Dc9E7fC71509620"
+      address: "0x3889860904C74009AC6F85012346Aa1FC3f5D121"
       abi: IERC721
-      startBlock: 25751085
+      startBlock: 25807236
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - ERC721Contract
+        - ERC721Token
+        - User
       abis:
         - name: IERC721
           file: ./node_modules/@openzeppelin/contracts/build/contracts/IERC721Metadata.json
