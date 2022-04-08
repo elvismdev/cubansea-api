@@ -1,3 +1,41 @@
+type _Schema_
+  @fulltext(
+    name: "cubanseaSearch"
+    language: en
+    algorithm: rank
+    include: [
+      {
+        entity: "ERC721Token"
+        fields: [{ name: "name" }, { name: "description" }]
+      }
+    ]
+  )
+
+type ERC721Token @entity {
+  id: ID!
+  contract: ERC721Contract!
+  identifier: BigInt!
+  owner: Account!
+  approval: Account!
+  uri: String
+  image: String
+  name: String
+  description: String
+  transfers: [ERC721Transfer!]! @derivedFrom(field: "token")
+  price: BigInt # uint256
+  seller: Account
+  createdAtTimestamp: BigInt
+  soldAtTimestamp: BigInt
+  creatorUser: User
+  ownerUser: User
+}
+
+type User @entity {
+  id: ID!
+  tokens: [ERC721Token!]! @derivedFrom(field: "ownerUser")
+  created: [ERC721Token!]! @derivedFrom(field: "creatorUser")
+}
+
 type MarketTokenMinted @entity {
   id: ID!
   itemId: BigInt! # uint256
@@ -39,28 +77,6 @@ type ERC721Contract @entity {
   tokens: [ERC721Token!]! @derivedFrom(field: "contract")
   operators: [ERC721Operator!]! @derivedFrom(field: "contract")
   transfers: [ERC721Transfer!]! @derivedFrom(field: "contract")
-}
-
-type ERC721Token @entity {
-  id: ID!
-  contract: ERC721Contract!
-  identifier: BigInt!
-  owner: Account!
-  approval: Account!
-  uri: String
-  transfers: [ERC721Transfer!]! @derivedFrom(field: "token")
-  price: BigInt # uint256
-  seller: Account
-  createdAtTimestamp: BigInt
-  soldAtTimestamp: BigInt
-  creatorUser: User
-  ownerUser: User
-}
-
-type User @entity {
-  id: ID!
-  tokens: [ERC721Token!]! @derivedFrom(field: "ownerUser")
-  created: [ERC721Token!]! @derivedFrom(field: "creatorUser")
 }
 
 type ERC721Operator @entity {
