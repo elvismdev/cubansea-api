@@ -38,13 +38,17 @@ export function handleMarketTokenMinted(event: MarketTokenMintedEvent): void {
     // Add creatorUser value.
     token.creatorUser = seller.id;
 
-    let ipfsUri = token.uri;
-    if (ipfsUri === null) {
-      ipfsUri = "";
+    /* Fetch the token metadata from Infura IPFS */
+    let tokenUriProp = token.uri;
+    let tokenUri: string = tokenUriProp ? tokenUriProp : "";
+
+    // Get only the IPFS CID hash from URL string.
+    let tokenIPFSHash = tokenUri.substring(tokenUri.lastIndexOf("/") + 1);
+    if (!tokenIPFSHash) {
+      tokenIPFSHash = "";
     }
 
-    /* Fetch the token metadata from Infura IPFS */
-    let metadata = ipfs.cat(ipfsUri);
+    let metadata = ipfs.cat(tokenIPFSHash);
     if (metadata) {
       const value = json.fromBytes(metadata).toObject();
       if (value) {
