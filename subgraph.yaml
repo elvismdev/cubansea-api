@@ -11,7 +11,7 @@ dataSources:
       startBlock: 25807235
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - MarketTokenMinted
@@ -34,7 +34,7 @@ dataSources:
       startBlock: 25807236
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - ERC721Contract
