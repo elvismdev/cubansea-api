@@ -1,3 +1,4 @@
+import { ipfs, json } from "@graphprotocol/graph-ts";
 import {
   MarketTokenMinted as MarketTokenMintedEvent,
   MarketTokenSold as MarketTokenSoldEvent,
@@ -36,6 +37,33 @@ export function handleMarketTokenMinted(event: MarketTokenMintedEvent): void {
     token.ownerUser = owner.id;
     // Add creatorUser value.
     token.creatorUser = seller.id;
+
+    /* Fetch the token metadata from Infura IPFS */
+    let tokenUriProp = token.uri;
+    let tokenUri: string = tokenUriProp ? tokenUriProp : "";
+
+    // Get only the IPFS CID hash from URL string.
+    let tokenIPFSHash = tokenUri.substring(tokenUri.lastIndexOf("/") + 1);
+    if (!tokenIPFSHash) {
+      tokenIPFSHash = "";
+    }
+
+    let metadata = ipfs.cat(tokenIPFSHash);
+    if (metadata) {
+      const value = json.fromBytes(metadata).toObject();
+      if (value) {
+        /* using the metatadata from IPFS, update the token object with the values  */
+        const image = value.get("image");
+        const name = value.get("name");
+        const description = value.get("description");
+
+        if (name && image && description) {
+          token.name = name.toString();
+          token.image = image.toString();
+          token.description = description.toString();
+        }
+      }
+    }
 
     contract.save();
     token.save();
